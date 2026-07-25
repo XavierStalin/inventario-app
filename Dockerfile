@@ -9,6 +9,9 @@ WORKDIR /app
 # Copiar archivos de dependencias
 COPY package.json package-lock.json ./
 
+# Actualizar npm para corregir vulnerabilidades en sus dependencias internas
+RUN npm install -g npm@latest
+
 # Instalar dependencias de forma reproducible
 RUN npm ci
 
@@ -33,6 +36,9 @@ ENV NODE_ENV=production
 
 # Copiar archivos de dependencias
 COPY package.json package-lock.json ./
+
+# Actualizar npm para corregir vulnerabilidades en sus dependencias internas
+RUN npm install -g npm@latest
 
 # Instalar únicamente dependencias de producción
 RUN npm ci --omit=dev && npm cache clean --force
