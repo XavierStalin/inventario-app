@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventario-app-v2
+spec:
+  replicas: 1 # 1 réplica = 20% del tráfico total (1 de 5)
+  selector:
+    matchLabels:
+      app: inventario-canary
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: inventario-canary
+        version: v2
+    spec:
+      containers:
+      - name: inventario-app
+        image: ghcr.io/xavierstalin/inventario-app:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: APP_VERSION
+          value: "v2.0-canary"
+        - name: APP_COLOR
+          value: "green"

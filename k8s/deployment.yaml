@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventario-app
+  labels:
+    app: inventario-app
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: inventario-app
+  template:
+    metadata:
+      labels:
+        app: inventario-app
+    spec:
+      containers:
+      - name: inventario-app
+        image: ghcr.io/xavierstalin/inventario-app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: APP_VERSION
+          value: "v1.0.0"
+        - name: APP_COLOR
+          value: "blue"
+        # Buena Práctica 3: Arranque lento
+        - name: STARTUP_DELAY_SECONDS
+          value: "10"
+        # Buena Práctica 1: Secreto
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: API_KEY
+        # Verificaciones de Salud
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 12
+          periodSeconds: 5
