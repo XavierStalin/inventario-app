@@ -38,21 +38,25 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Paso B: Consulta posterior a la recreación del Pod confirmando que el producto recién registrado desapareció.}}{7}{figure.8}\protected@file@percent }
 \newlabel{fig:persistencia_52}{{8}{7}{Paso B: Consulta posterior a la recreación del Pod confirmando que el producto recién registrado desapareció}{figure.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Causa Raíz Técnica y Solución en Producción}{7}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Problemas Reales Encontrados y Soluciones Aplicadas}{7}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt  {CVE-2026-59873})}{7}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Bloqueo automático del pipeline en GitHub Actions tras detectar la vulnerabilidad \texttt  {CRITICAL} por Trivy.}}{7}{figure.9}\protected@file@percent }
-\newlabel{fig:trivy_error}{{9}{7}{Bloqueo automático del pipeline en GitHub Actions tras detectar la vulnerabilidad \texttt {CRITICAL} por Trivy}{figure.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Problema 2: Error \texttt  {ImagePullBackOff} y \texttt  {denied} en GHCR}{7}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Componentes Adicionales de Buenas Prácticas}{7}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Componente 1: Manejo de Secretos (\texttt  {API\_KEY})}{7}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Componente 2: Escaneo de Seguridad en CI con Trivy}{7}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Componente 3: Readiness Probe Realista con Arranque Lento}{7}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Problemas Reales Encontrados y Soluciones Aplicadas}{7}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt  {CVE-2026-59873})}{7}{subsection.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Bloqueo automático del pipeline en GitHub Actions tras detectar la vulnerabilidad \texttt  {CRITICAL} por Trivy.}}{8}{figure.9}\protected@file@percent }
+\newlabel{fig:trivy_error}{{9}{8}{Bloqueo automático del pipeline en GitHub Actions tras detectar la vulnerabilidad \texttt {CRITICAL} por Trivy}{figure.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Problema 2: Error \texttt  {ImagePullBackOff} y \texttt  {denied} en GHCR}{8}{subsection.5.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Solución al Problema 2: Corrección del nombre del propietario del repositorio Git (\texttt  {XavierStalin}) en la ruta de la imagen en los manifiestos de Kubernetes.}}{8}{figure.10}\protected@file@percent }
 \newlabel{fig:cambio_usuario_git}{{10}{8}{Solución al Problema 2: Corrección del nombre del propietario del repositorio Git (\texttt {XavierStalin}) en la ruta de la imagen en los manifiestos de Kubernetes}{figure.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Problema 3: Limitación de \texttt  {kubectl port-forward} en Pruebas Canary}{8}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Anexo: Evidencias Fotográficas de la Práctica}{9}{section.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Evidencia 1: Reparto de tráfico en el servicio Canary (80\% v1.0-stable / 20\% v2.0-canary).}}{9}{figure.11}\protected@file@percent }
-\newlabel{fig:evidencia1_canary}{{11}{9}{Evidencia 1: Reparto de tráfico en el servicio Canary (80\% v1.0-stable / 20\% v2.0-canary)}{figure.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Evidencia 2: Consulta de la variable \texttt  {API\_KEY} inyectada desde el Kubernetes Secret.}}{9}{figure.12}\protected@file@percent }
-\newlabel{fig:evidencia2_secretos}{{12}{9}{Evidencia 2: Consulta de la variable \texttt {API\_KEY} inyectada desde el Kubernetes Secret}{figure.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Evidencia 3: Log del análisis de seguridad limpio con Trivy en GitHub Actions.}}{9}{figure.13}\protected@file@percent }
-\newlabel{fig:evidencia3_trivy}{{13}{9}{Evidencia 3: Log del análisis de seguridad limpio con Trivy en GitHub Actions}{figure.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Evidencia 4: Inspección del Pod mostrando \texttt  {STARTUP\_DELAY\_SECONDS: 10} y la configuración del \texttt  {Readiness Probe}.}}{10}{figure.14}\protected@file@percent }
-\newlabel{fig:evidencia4_readiness}{{14}{10}{Evidencia 4: Inspección del Pod mostrando \texttt {STARTUP\_DELAY\_SECONDS: 10} y la configuración del \texttt {Readiness Probe}}{figure.14}{}}
-\gdef \@abspage@last{11}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Problema 3: Limitación de \texttt  {kubectl port-forward} en Pruebas Canary}{9}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Anexo: Evidencias Fotográficas de la Práctica}{10}{section.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Evidencia 1: Reparto de tráfico en el servicio Canary (80\% v1.0-stable / 20\% v2.0-canary).}}{10}{figure.11}\protected@file@percent }
+\newlabel{fig:evidencia1_canary}{{11}{10}{Evidencia 1: Reparto de tráfico en el servicio Canary (80\% v1.0-stable / 20\% v2.0-canary)}{figure.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Evidencia 2: Consulta de la variable \texttt  {API\_KEY} inyectada desde el Kubernetes Secret.}}{10}{figure.12}\protected@file@percent }
+\newlabel{fig:evidencia2_secretos}{{12}{10}{Evidencia 2: Consulta de la variable \texttt {API\_KEY} inyectada desde el Kubernetes Secret}{figure.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Evidencia 3: Log del análisis de seguridad limpio con Trivy en GitHub Actions.}}{10}{figure.13}\protected@file@percent }
+\newlabel{fig:evidencia3_trivy}{{13}{10}{Evidencia 3: Log del análisis de seguridad limpio con Trivy en GitHub Actions}{figure.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Evidencia 4: Inspección del Pod mostrando \texttt  {STARTUP\_DELAY\_SECONDS: 10} y la configuración del \texttt  {Readiness Probe}.}}{11}{figure.14}\protected@file@percent }
+\newlabel{fig:evidencia4_readiness}{{14}{11}{Evidencia 4: Inspección del Pod mostrando \texttt {STARTUP\_DELAY\_SECONDS: 10} y la configuración del \texttt {Readiness Probe}}{figure.14}{}}
+\gdef \@abspage@last{12}

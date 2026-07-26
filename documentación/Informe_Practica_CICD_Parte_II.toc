@@ -10,8 +10,12 @@
 \contentsline {section}{\numberline {3}Observación Técnica: Persistencia y Almacenamiento Efímero}{6}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Experimento Realizado (Paso 5)}{6}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Causa Raíz Técnica y Solución en Producción}{7}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Problemas Reales Encontrados y Soluciones Aplicadas}{7}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt {CVE-2026-59873})}{7}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Problema 2: Error \texttt {ImagePullBackOff} y \texttt {denied} en GHCR}{7}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Problema 3: Limitación de \texttt {kubectl port-forward} en Pruebas Canary}{8}{subsection.4.3}%
-\contentsline {section}{\numberline {5}Anexo: Evidencias Fotográficas de la Práctica}{9}{section.5}%
+\contentsline {section}{\numberline {4}Componentes Adicionales de Buenas Prácticas}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Componente 1: Manejo de Secretos (\texttt {API\_KEY})}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Componente 2: Escaneo de Seguridad en CI con Trivy}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Componente 3: Readiness Probe Realista con Arranque Lento}{7}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Problemas Reales Encontrados y Soluciones Aplicadas}{7}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt {CVE-2026-59873})}{7}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Problema 2: Error \texttt {ImagePullBackOff} y \texttt {denied} en GHCR}{8}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Problema 3: Limitación de \texttt {kubectl port-forward} en Pruebas Canary}{9}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Anexo: Evidencias Fotográficas de la Práctica}{10}{section.6}%

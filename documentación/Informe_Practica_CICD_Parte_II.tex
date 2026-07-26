@@ -275,6 +275,19 @@ La aplicación escribe el estado del inventario en un archivo JSON local (\textt
 
 Para garantizar la persistencia en producción, se debe desacoplar el almacenamiento montando un volumen persistente (\texttt{PersistentVolumeClaim}) en la ruta \texttt{/app/data} o integrando un motor de base de datos externo.
 
+\section{Componentes Adicionales de Buenas Prácticas}
+
+De acuerdo con la rúbrica del examen, se exigía implementar al menos 2 de 3 componentes adicionales de buenas prácticas. Nuestro equipo implementó **los 3 componentes completos**, garantizando los **+2 puntos extra de bonificación**:
+
+\subsection{Componente 1: Manejo de Secretos (\texttt{API\_KEY})}
+Se creó un objeto \texttt{Secret} nativo de Kubernetes (\texttt{k8s/secret.yaml}) con la clave ficticia \texttt{API\_KEY: "my-super-secret-api-key-12345"}. Esta credencial se consume en el contenedor vía variable de entorno utilizando \texttt{secretKeyRef} en \texttt{k8s/deployment.yaml}, garantizando que ninguna contraseña en texto plano quede guardada en el código ni versionada en Git. *(Ver Evidencia en la Figura \ref{fig:evidencia2_secretos})*.
+
+\subsection{Componente 2: Escaneo de Seguridad en CI con Trivy}
+Se integró el análisis de seguridad con la acción \texttt{aquasecurity/trivy-action} en el pipeline de GitHub Actions (\texttt{.github/workflows/ci-cd.yml}). El paso está configurado con \texttt{exit-code: 1} y \texttt{severity: CRITICAL}, aplicando el principio \textit{Fail-Fast}: si se detecta cualquier vulnerabilidad crítica en la imagen Docker, la ejecución se cancela antes de la publicación en GHCR. *(Ver Figuras \ref{fig:trivy_error} y \ref{fig:evidencia3_trivy})*.
+
+\subsection{Componente 3: Readiness Probe Realista con Arranque Lento}
+Se configuró la variable de entorno \texttt{STARTUP\_DELAY\_SECONDS: 10} en la aplicación para simular un tiempo de arranque de conexión a base de datos. Se ajustó el \texttt{readinessProbe} con \texttt{initialDelaySeconds: 12} y \texttt{periodSeconds: 5}. Esto garantiza que Kubernetes no envíe tráfico al Pod ni lo elimine durante sus primeros 10 segundos de inicio, esperando a que el endpoint \texttt{/health} responda \texttt{200 OK}. *(Ver Evidencia en la Figura \ref{fig:evidencia4_readiness})*.
+
 \section{Problemas Reales Encontrados y Soluciones Aplicadas}
 
 \subsection{Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt{CVE-2026-59873})}
@@ -294,7 +307,7 @@ Para garantizar la persistencia en producción, se debe desacoplar el almacenami
 \subsection{Problema 2: Error \texttt{ImagePullBackOff} y \texttt{denied} en GHCR}
 \begin{itemize}[leftmargin=*]
     \item \textbf{Síntoma:} Los Pods mostraban estado \texttt{ImagePullBackOff} debido al evento \texttt{Failed to pull image: denied} al buscar la imagen bajo la cuenta personal de un integrante en lugar del propietario del repositorio.
-    \item \textbf{Solución:} Se unificaron los nombres de las imágenes en todos los manifiestos YAML apuntando al usuario propietario del repositorio (\texttt{ghcr.io/xavierstalin/inventario-app:latest}) y se configuró la visibilidad del paquete como \textbf{Pública} en GitHub Packages.
+    \item \textbf{Solución:} Se unificaron los nombres de las imágenes en todos los manifiestos YAML apuntando al usuario propietario del repositorio (\texttt{ghcr.io/\allowbreak xavierstalin/\allowbreak inventario-app:latest}) y se configuró la visibilidad del paquete como \textbf{Pública} en GitHub Packages.
     
     \begin{figure}[H]
         \centering
@@ -307,7 +320,7 @@ Para garantizar la persistencia en producción, se debe desacoplar el almacenami
 \subsection{Problema 3: Limitación de \texttt{kubectl port-forward} en Pruebas Canary}
 \begin{itemize}[leftmargin=*]
     \item \textbf{Síntoma:} \texttt{kubectl port-forward} enrutaba el 100\% de las peticiones a una sola réplica de la versión \texttt{v1}.
-    \item \textbf{Solución:} Se ejecutó una prueba desde dentro del clúster mediante un Pod de prueba efímero (\texttt{kubectl run test-canary}). Al consultar directamente la dirección DNS interna del servicio, \texttt{Kube-Proxy} realizó el balanceo real repartiendo ~80\% a la versión \texttt{v1} y ~20\% a la versión \texttt{v2}.
+    \item \textbf{Solución:} Se ejecutó una prueba desde dentro del clúster mediante un Pod de prueba efímero (\texttt{kubectl run test-canary}). Al consultar directamente la dirección DNS interna del servicio, \texttt{Kube-Proxy} realizó el balanceo real repartiendo ~80\% a la versión \texttt{v1} y ~20\% a la versión \texttt{v2}. *(Ver Figura \ref{fig:evidencia1_canary})*.
 \end{itemize}
 
 \newpage

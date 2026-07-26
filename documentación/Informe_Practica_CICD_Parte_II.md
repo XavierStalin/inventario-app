@@ -67,7 +67,7 @@ Para evitar la pérdida de datos en un entorno productivo real, se debe desacopl
 ### Problema 3: `kubectl port-forward` no balanceaba el tráfico Canary
 - **Síntoma:** Al ejecutar peticiones en bucle a `http://localhost:8081/version` usando `port-forward`, el 100% de las respuestas provenían siempre del mismo Pod de la versión `v1.0-stable`.
 - **Causa:** `kubectl port-forward` establece un túnel directo punto a punto hacia un único Pod específico del servicio, ignorando el balanceo de carga entre múltiples réplicas.
-- **Solución:** Se realizó la verificación directamente dentro del clúster creando un pod de prueba efímero con `kubectl run test-canary --rm -i --restart=Never --image=curlimages/curl ...`. Al realizar las peticiones a través del DNS interno del servicio, `Kube-Proxy` ejecutó el balanceo de carga real repartiendo un ~80% a la versión `v1` y un ~20% a la versión `v2`.
+- **Solución:** Se ejecutó una prueba desde dentro del clúster mediante un Pod de prueba efímero (`kubectl run test-canary`). Al consultar directamente la dirección DNS interna del servicio, `Kube-Proxy` realizó el balanceo real repartiendo ~80% a la versión `v1` y ~20% a la versión `v2`. *(Ver Evidencia 1: Reparto de tráfico Canary)*.
 
 ---
 
