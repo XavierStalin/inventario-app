@@ -2,13 +2,16 @@
 \contentsline {section}{\numberline {1}Justificación Técnica de la Estrategia de Despliegue (Canary 80/20)}{2}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Razones Técnicas de la Elección}{2}{subsection.1.1}%
 \contentsline {section}{\numberline {2}Métricas DORA Propias y Análisis de Rendimiento}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Resumen de Métricas Calculadas}{3}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Reflexión del Desempeño del Equipo}{3}{subsection.2.2}%
-\contentsline {section}{\numberline {3}Observación Técnica: Persistencia y Almacenamiento Efímero}{3}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Experimento Realizado (Paso 5)}{3}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Causa Raíz Técnica y Solución en Producción}{4}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Problemas Reales Encontrados y Soluciones Aplicadas}{4}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt {CVE-2026-59873})}{4}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Problema 2: Error \texttt {ImagePullBackOff} y \texttt {denied} en GHCR}{5}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Problema 3: Limitación de \texttt {kubectl port-forward} en Pruebas Canary}{6}{subsection.4.3}%
-\contentsline {section}{\numberline {5}Anexo: Evidencias Fotográficas de la Práctica}{7}{section.5}%
+\contentsline {subsection}{\numberline {2.1}Paso 2: Tiempo de Entrega de Cambios (Lead Time for Changes)}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Paso 3: Frecuencia de Despliegue (Deployment Frequency)}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Paso 4: Tasa de Errores de Cambios (Change Failure Rate - CFR)}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Resumen de Métricas Calculadas}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Reflexión del Desempeño del Equipo}{6}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Observación Técnica: Persistencia y Almacenamiento Efímero}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Experimento Realizado (Paso 5)}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Causa Raíz Técnica y Solución en Producción}{7}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Problemas Reales Encontrados y Soluciones Aplicadas}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt {CVE-2026-59873})}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Problema 2: Error \texttt {ImagePullBackOff} y \texttt {denied} en GHCR}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Problema 3: Limitación de \texttt {kubectl port-forward} en Pruebas Canary}{8}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Anexo: Evidencias Fotográficas de la Práctica}{9}{section.5}%

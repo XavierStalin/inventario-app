@@ -53,6 +53,9 @@ A continuación se detallan los comandos que se han implementado y verificado ha
 
 ### 1. Construcción y Ejecución Local con Docker
 
+#### Diagrama General de Arquitectura
+![Diagrama General de Arquitectura](evidencias/10722431-741b-4edd-a4ca-33bd02357a89.png)
+
 Para empaquetar la aplicación en un contenedor de Docker utilizando el `Dockerfile` multi-stage y validar su correcto funcionamiento localmente:
 
 **Construir la imagen de Docker:**

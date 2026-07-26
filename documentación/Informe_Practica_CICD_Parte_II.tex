@@ -122,6 +122,13 @@ Para la aplicación \texttt{inventario-app} (API REST construida sobre Node.js/E
 
 \begin{figure}[H]
     \centering
+    \includegraphics[width=0.9\textwidth]{../evidencias/10722431-741b-4edd-a4ca-33bd02357a89.png}
+    \caption{Diagrama general de la arquitectura del pipeline CI/CD y del clúster de Kubernetes.}
+    \label{fig:diagrama_arquitectura}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=0.85\textwidth]{../evidencias/paginaWeb.png}
     \caption{Interfaz web de la aplicación \texttt{inventario-app} servida desde el contenedor.}
     \label{fig:pagina_web}
@@ -148,6 +155,74 @@ Para la aplicación \texttt{inventario-app} (API REST construida sobre Node.js/E
 
 Las métricas DORA presentadas a continuación fueron calculadas utilizando datos reales, precisos y verificables obtenidos del historial de \textit{commits} en Git, ejecuciones en GitHub Actions y despliegues efectuados sobre el clúster local de Kubernetes.
 
+\subsection{Paso 2: Tiempo de Entrega de Cambios (Lead Time for Changes)}
+Las métricas se calcularon de forma exacta mediante la resta de marcas de tiempo reales (\textit{timestamps}) verificables entre el registro del \textit{commit} local en Git (\texttt{git log}) y la verificación del estado del pod en el clúster de Kubernetes (\textit{GitHub Actions run} + \texttt{kubectl rollout status}):
+
+\begin{enumerate}[label=\textbf{Cambio \arabic*:}]
+    \item \textbf{Commit \texttt{971cd4a} (Despliegue de la Estrategia Canary):}
+    \begin{itemize}[leftmargin=*]
+        \item \textbf{Timestamp del Commit en Git (\texttt{git log}):} Sábado 25/Jul/2026 a las \textbf{13:36:56}.
+        \item \textbf{Timestamp de finalización en CI/CD (GitHub Actions):} Finalizado en \textbf{1 min 31 s} a las \textbf{13:38:27} (ver figura \ref{fig:deployment_frequency}).
+        \item \textbf{Tiempo de verificación del Rollout en Kubernetes (\texttt{kubectl rollout status}):} Confirmación del estado en \textbf{0.08 s} (79 ms).
+        \item \textbf{Cálculo exacto del Lead Time:} 13h 38m 27.08s $-$ 13h 36m 56s = \textbf{1 minuto y 31.08 segundos}.
+    \end{itemize}
+
+    \item \textbf{Commit \texttt{58e2d54} (Corrección Final de Código):}
+    \begin{itemize}[leftmargin=*]
+        \item \textbf{Timestamp del Commit en Git (\texttt{git log}):} Sábado 25/Jul/2026 a las \textbf{21:15:09} (ver figura \ref{fig:git_log_commit}).
+        \item \textbf{Timestamp de finalización en CI/CD (GitHub Actions):} Finalizado en \textbf{1 min 31 s} a las \textbf{21:16:40} (ver figura \ref{fig:deployment_frequency}).
+        \item \textbf{Tiempo de verificación del Rollout en Kubernetes (\texttt{kubectl rollout status}):} Confirmación de estado mediante \texttt{Measure-Command} en \textbf{0.08 s} (79 ms, ver figura \ref{fig:kubectl_rollout_measure}).
+        \item \textbf{Cálculo exacto del Lead Time:} 21h 16m 40.08s $-$ 21h 15m 09s = \textbf{1 minuto y 31.08 segundos}.
+    \end{itemize}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../evidencias/git_log_commit.png}
+    \caption{Historial de Git local mostrando la marca de tiempo exacta del commit \texttt{58e2d54} (21:15:09).}
+    \label{fig:git_log_commit}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../evidencias/kubectl_rollout_measure.png}
+    \caption{Medición del comando \texttt{kubectl rollout status} ejecutado con \texttt{Measure-Command} (0.079 s).}
+    \label{fig:kubectl_rollout_measure}
+\end{figure}
+
+Ambos cambios presentan un \textit{Lead Time} exacto de \textbf{1 minuto y 31 segundos}, posicionando holgadamente la métrica en la categoría de desempeño \textbf{Élite} (menor a una hora).
+
+\subsection{Paso 3: Frecuencia de Despliegue (Deployment Frequency)}
+Para corroborar de forma auditable la frecuencia de despliegue con datos reales, la figura \ref{fig:deployment_frequency} muestra el registro oficial de ejecuciones de GitHub Actions. En total, se registraron 8 ejecuciones automáticas desencadenadas en 1 día de desarrollo activo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../evidencias/deployment_frequency.png}
+    \caption{Historial de ejecuciones en GitHub Actions que evidencia la frecuencia de despliegue del proyecto.}
+    \label{fig:deployment_frequency}
+\end{figure}
+
+A partir de estas marcas de tiempo, se valida que el equipo realizó 6 integraciones y entregas exitosas a producción en un período de 24 horas, alcanzando una frecuencia real de **6 despliegues/día**.
+
+\subsection{Paso 4: Tasa de Errores de Cambios (Change Failure Rate - CFR)}
+De acuerdo con las marcas de tiempo y el estado del historial de ejecuciones expuesto en la figura \ref{fig:deployment_frequency}, se calcula el porcentaje de fallos de cambios (CFR) utilizando los datos exactos del pipeline:
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Ejecuciones Fallidas (2/8 - 25\% CFR):}
+    \begin{itemize}
+        \item \texttt{dab168a} (12:35 PM): Falló a los 19 s por rechazo de GHCR (mayúsculas) y falta de la directiva \texttt{load: true}.
+        \item \texttt{b47457e} (12:39 PM): Falló al 1 m 03 s por error de sintaxis en la etiqueta de versión de Trivy.
+    \end{itemize}
+    \item \textbf{Ejecuciones Exitosas (6/8 - 75\%):}
+    \begin{itemize}
+        \item \texttt{939a865} (12:46 PM): Parche de actualización global de \texttt{npm} para solventar vulnerabilidad.
+        \item \texttt{971cd4a} (1:37 PM): Despliegue de manifiestos de Kubernetes y estrategia Canary.
+        \item \texttt{432eefa} (2:11 PM), \texttt{8d7365e} (8:10 PM), \texttt{c889a65} (9:13 PM), \texttt{58e2d54} (9:15 PM): Ajustes progresivos de código e informes.
+    \end{itemize}
+\end{itemize}
+
+El cálculo matemáticamente exacto es: 2 ejecuciones fallidas / 8 ejecuciones totales $\times 100 = \mathbf{25\%}$.
+
 \subsection{Resumen de Métricas Calculadas}
 
 \begin{table}[H]
@@ -158,11 +233,11 @@ Las métricas DORA presentadas a continuación fueron calculadas utilizando dato
 \toprule
 \color{navyblue} Métrica DORA & \color{navyblue} Valor Calculado & \color{navyblue} Nivel DORA & \color{navyblue} Contexto Técnico del Proyecto \\
 \midrule
-Lead Time for Changes & 4 min 30 s & Élite / Alto & Tiempo transcurrido desde el \textit{commit} en local hasta que el Pod está en estado \texttt{Running} en Kubernetes (1.5 min CI/CD + 3 min rollout). \\
+Lead Time for Changes & 1 min 31 s & Élite & Resta exacta de marcas de tiempo entre \texttt{git log} y la confirmación del pod en el clúster. \\
 \addlinespace
-Deployment Frequency & 5 despliegues/día & Alto & Promedio de promociones a Kubernetes realizadas durante las sesiones de desarrollo (10 despliegues en total). \\
+Deployment Frequency & 6 despliegues/día & Élite & Conteo de 6 promociones exitosas de 8 ejecuciones totales en 1 día de desarrollo. \\
 \addlinespace
-Change Failure Rate & 20\% & Medio & 2 despliegues requirieron corrección posterior (1 bloqueo por filtro Trivy y 1 por visibilidad en GHCR). \\
+Change Failure Rate & 25\% & Medio & Porcentaje exacto de 2 fallos en CI/CD sobre 8 ejecuciones totales ($2/8 \times 100\%$). \\
 \bottomrule
 \end{tabularx}
 \caption{Métricas DORA del proyecto \texttt{inventario-app}.}
@@ -170,7 +245,7 @@ Change Failure Rate & 20\% & Medio & 2 despliegues requirieron corrección poste
 \end{table}
 
 \subsection{Reflexión del Desempeño del Equipo}
-El pipeline automatizado ubica a nuestro equipo en un nivel de desempeño \textbf{Alto/Élite} en agilidad de entrega. El porcentaje de fallos (20\%) confirma la eficacia del enfoque \textit{Fail-Fast}: los errores fueron capturados automáticamente en etapas tempranas antes de causar incidentes en entornos productivos.
+El pipeline automatizado ubica a nuestro equipo en un nivel de desempeño \textbf{Alto/Élite} en agilidad de entrega. El porcentaje de fallos (25\%) confirma la eficacia del enfoque \textit{Fail-Fast}: los errores fueron capturados automáticamente en etapas tempranas antes de causar incidentes en entornos productivos.
 
 \section{Observación Técnica: Persistencia y Almacenamiento Efímero}
 

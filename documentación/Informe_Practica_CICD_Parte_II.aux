@@ -10,38 +10,49 @@
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \babel@aux{spanish}{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Justificación Técnica de la Estrategia de Despliegue (Canary 80/20)}{2}{section.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Interfaz web de la aplicación \texttt  {inventario-app} servida desde el contenedor.}}{2}{figure.1}\protected@file@percent }
-\newlabel{fig:pagina_web}{{1}{2}{Interfaz web de la aplicación \texttt {inventario-app} servida desde el contenedor}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Diagrama general de la arquitectura del pipeline CI/CD y del clúster de Kubernetes.}}{2}{figure.1}\protected@file@percent }
+\newlabel{fig:diagrama_arquitectura}{{1}{2}{Diagrama general de la arquitectura del pipeline CI/CD y del clúster de Kubernetes}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Interfaz web de la aplicación \texttt  {inventario-app} servida desde el contenedor.}}{2}{figure.2}\protected@file@percent }
+\newlabel{fig:pagina_web}{{2}{2}{Interfaz web de la aplicación \texttt {inventario-app} servida desde el contenedor}{figure.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Razones Técnicas de la Elección}{2}{subsection.1.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Estado general de los Deployments, Pods y Services desplegados en el clúster de Kubernetes.}}{3}{figure.2}\protected@file@percent }
-\newlabel{fig:estado_general}{{2}{3}{Estado general de los Deployments, Pods y Services desplegados en el clúster de Kubernetes}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Estado general de los Deployments, Pods y Services desplegados en el clúster de Kubernetes.}}{3}{figure.3}\protected@file@percent }
+\newlabel{fig:estado_general}{{3}{3}{Estado general de los Deployments, Pods y Services desplegados en el clúster de Kubernetes}{figure.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Métricas DORA Propias y Análisis de Rendimiento}{3}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Resumen de Métricas Calculadas}{3}{subsection.2.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Métricas DORA del proyecto \texttt  {inventario-app}.}}{3}{table.1}\protected@file@percent }
-\newlabel{tab:dora_metrics}{{1}{3}{Métricas DORA del proyecto \texttt {inventario-app}}{table.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Reflexión del Desempeño del Equipo}{3}{subsection.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Observación Técnica: Persistencia y Almacenamiento Efímero}{3}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Experimento Realizado (Paso 5)}{3}{subsection.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Paso A: Creación del producto de prueba y posterior eliminación del Pod.}}{4}{figure.3}\protected@file@percent }
-\newlabel{fig:persistencia_51}{{3}{4}{Paso A: Creación del producto de prueba y posterior eliminación del Pod}{figure.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Paso B: Consulta posterior a la recreación del Pod confirmando que el producto recién registrado desapareció.}}{4}{figure.4}\protected@file@percent }
-\newlabel{fig:persistencia_52}{{4}{4}{Paso B: Consulta posterior a la recreación del Pod confirmando que el producto recién registrado desapareció}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Causa Raíz Técnica y Solución en Producción}{4}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Problemas Reales Encontrados y Soluciones Aplicadas}{4}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt  {CVE-2026-59873})}{4}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Bloqueo automático del pipeline en GitHub Actions tras detectar la vulnerabilidad \texttt  {CRITICAL} por Trivy.}}{5}{figure.5}\protected@file@percent }
-\newlabel{fig:trivy_error}{{5}{5}{Bloqueo automático del pipeline en GitHub Actions tras detectar la vulnerabilidad \texttt {CRITICAL} por Trivy}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Problema 2: Error \texttt  {ImagePullBackOff} y \texttt  {denied} en GHCR}{5}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Solución al Problema 2: Corrección del nombre del propietario del repositorio Git (\texttt  {XavierStalin}) en la ruta de la imagen en los manifiestos de Kubernetes.}}{5}{figure.6}\protected@file@percent }
-\newlabel{fig:cambio_usuario_git}{{6}{5}{Solución al Problema 2: Corrección del nombre del propietario del repositorio Git (\texttt {XavierStalin}) en la ruta de la imagen en los manifiestos de Kubernetes}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Problema 3: Limitación de \texttt  {kubectl port-forward} en Pruebas Canary}{6}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Anexo: Evidencias Fotográficas de la Práctica}{7}{section.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Evidencia 1: Reparto de tráfico en el servicio Canary (80\% v1.0-stable / 20\% v2.0-canary).}}{7}{figure.7}\protected@file@percent }
-\newlabel{fig:evidencia1_canary}{{7}{7}{Evidencia 1: Reparto de tráfico en el servicio Canary (80\% v1.0-stable / 20\% v2.0-canary)}{figure.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Evidencia 2: Consulta de la variable \texttt  {API\_KEY} inyectada desde el Kubernetes Secret.}}{7}{figure.8}\protected@file@percent }
-\newlabel{fig:evidencia2_secretos}{{8}{7}{Evidencia 2: Consulta de la variable \texttt {API\_KEY} inyectada desde el Kubernetes Secret}{figure.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Evidencia 3: Log del análisis de seguridad limpio con Trivy en GitHub Actions.}}{7}{figure.9}\protected@file@percent }
-\newlabel{fig:evidencia3_trivy}{{9}{7}{Evidencia 3: Log del análisis de seguridad limpio con Trivy en GitHub Actions}{figure.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Evidencia 4: Inspección del Pod mostrando \texttt  {STARTUP\_DELAY\_SECONDS: 10} y la configuración del \texttt  {Readiness Probe}.}}{8}{figure.10}\protected@file@percent }
-\newlabel{fig:evidencia4_readiness}{{10}{8}{Evidencia 4: Inspección del Pod mostrando \texttt {STARTUP\_DELAY\_SECONDS: 10} y la configuración del \texttt {Readiness Probe}}{figure.10}{}}
-\gdef \@abspage@last{9}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Paso 2: Tiempo de Entrega de Cambios (Lead Time for Changes)}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Historial de Git local mostrando la marca de tiempo exacta del commit \texttt  {58e2d54} (21:15:09).}}{4}{figure.4}\protected@file@percent }
+\newlabel{fig:git_log_commit}{{4}{4}{Historial de Git local mostrando la marca de tiempo exacta del commit \texttt {58e2d54} (21:15:09)}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Medición del comando \texttt  {kubectl rollout status} ejecutado con \texttt  {Measure-Command} (0.079 s).}}{4}{figure.5}\protected@file@percent }
+\newlabel{fig:kubectl_rollout_measure}{{5}{4}{Medición del comando \texttt {kubectl rollout status} ejecutado con \texttt {Measure-Command} (0.079 s)}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Paso 3: Frecuencia de Despliegue (Deployment Frequency)}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Historial de ejecuciones en GitHub Actions que evidencia la frecuencia de despliegue del proyecto.}}{5}{figure.6}\protected@file@percent }
+\newlabel{fig:deployment_frequency}{{6}{5}{Historial de ejecuciones en GitHub Actions que evidencia la frecuencia de despliegue del proyecto}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Paso 4: Tasa de Errores de Cambios (Change Failure Rate - CFR)}{5}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Resumen de Métricas Calculadas}{6}{subsection.2.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Métricas DORA del proyecto \texttt  {inventario-app}.}}{6}{table.1}\protected@file@percent }
+\newlabel{tab:dora_metrics}{{1}{6}{Métricas DORA del proyecto \texttt {inventario-app}}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Reflexión del Desempeño del Equipo}{6}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Observación Técnica: Persistencia y Almacenamiento Efímero}{6}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Experimento Realizado (Paso 5)}{6}{subsection.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Paso A: Creación del producto de prueba y posterior eliminación del Pod.}}{6}{figure.7}\protected@file@percent }
+\newlabel{fig:persistencia_51}{{7}{6}{Paso A: Creación del producto de prueba y posterior eliminación del Pod}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Paso B: Consulta posterior a la recreación del Pod confirmando que el producto recién registrado desapareció.}}{7}{figure.8}\protected@file@percent }
+\newlabel{fig:persistencia_52}{{8}{7}{Paso B: Consulta posterior a la recreación del Pod confirmando que el producto recién registrado desapareció}{figure.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Causa Raíz Técnica y Solución en Producción}{7}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Problemas Reales Encontrados y Soluciones Aplicadas}{7}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Problema 1: Vulnerabilidad Crítica Detectada por Trivy (\texttt  {CVE-2026-59873})}{7}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Bloqueo automático del pipeline en GitHub Actions tras detectar la vulnerabilidad \texttt  {CRITICAL} por Trivy.}}{7}{figure.9}\protected@file@percent }
+\newlabel{fig:trivy_error}{{9}{7}{Bloqueo automático del pipeline en GitHub Actions tras detectar la vulnerabilidad \texttt {CRITICAL} por Trivy}{figure.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Problema 2: Error \texttt  {ImagePullBackOff} y \texttt  {denied} en GHCR}{7}{subsection.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Solución al Problema 2: Corrección del nombre del propietario del repositorio Git (\texttt  {XavierStalin}) en la ruta de la imagen en los manifiestos de Kubernetes.}}{8}{figure.10}\protected@file@percent }
+\newlabel{fig:cambio_usuario_git}{{10}{8}{Solución al Problema 2: Corrección del nombre del propietario del repositorio Git (\texttt {XavierStalin}) en la ruta de la imagen en los manifiestos de Kubernetes}{figure.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Problema 3: Limitación de \texttt  {kubectl port-forward} en Pruebas Canary}{8}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Anexo: Evidencias Fotográficas de la Práctica}{9}{section.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Evidencia 1: Reparto de tráfico en el servicio Canary (80\% v1.0-stable / 20\% v2.0-canary).}}{9}{figure.11}\protected@file@percent }
+\newlabel{fig:evidencia1_canary}{{11}{9}{Evidencia 1: Reparto de tráfico en el servicio Canary (80\% v1.0-stable / 20\% v2.0-canary)}{figure.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Evidencia 2: Consulta de la variable \texttt  {API\_KEY} inyectada desde el Kubernetes Secret.}}{9}{figure.12}\protected@file@percent }
+\newlabel{fig:evidencia2_secretos}{{12}{9}{Evidencia 2: Consulta de la variable \texttt {API\_KEY} inyectada desde el Kubernetes Secret}{figure.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Evidencia 3: Log del análisis de seguridad limpio con Trivy en GitHub Actions.}}{9}{figure.13}\protected@file@percent }
+\newlabel{fig:evidencia3_trivy}{{13}{9}{Evidencia 3: Log del análisis de seguridad limpio con Trivy en GitHub Actions}{figure.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Evidencia 4: Inspección del Pod mostrando \texttt  {STARTUP\_DELAY\_SECONDS: 10} y la configuración del \texttt  {Readiness Probe}.}}{10}{figure.14}\protected@file@percent }
+\newlabel{fig:evidencia4_readiness}{{14}{10}{Evidencia 4: Inspección del Pod mostrando \texttt {STARTUP\_DELAY\_SECONDS: 10} y la configuración del \texttt {Readiness Probe}}{figure.14}{}}
+\gdef \@abspage@last{11}
