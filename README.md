@@ -57,12 +57,12 @@ Para empaquetar la aplicación en un contenedor de Docker utilizando el `Dockerf
 
 **Construir la imagen de Docker:**
 ```bash
-docker build -t inventario-app:local .
+docker build -t inventario-app:v1 .
 ```
 
 **Ejecutar el contenedor localmente:**
 ```bash
-docker run -d -p 3000:3000 --name inventario-container inventario-app:local
+docker run -d -p 3000:3000 --name inventario-container inventario-app:v1
 ```
 
 **Verificar las rutas principales (con curl):**
@@ -169,15 +169,9 @@ kubectl get services
 
 **Demostración 1: Reparto de Tráfico en Despliegue Canary:**
 ```bash
-# Terminal 1: Port-forward del servicio canary
-kubectl port-forward svc/inventario-canary-service 8081:80
-
-# Terminal 2: Verificación de tráfico (80% v1.0-stable, 20% v2.0-canary)
-# En PowerShell / Warp:
-1..10 | ForEach-Object { (Invoke-RestMethod -Uri http://localhost:8081/version) | ConvertTo-Json -Compress }
-
-# En Git Bash / Linux:
-for i in {1..10}; do curl -s http://localhost:8081/version; echo ""; done
+# Probar el balanceo de carga real (Kube-Proxy) realizando 20 peticiones HTTP dentro del clúster:
+# Reparto aproximado: 80% v1.0-stable (azul) y 20% v2.0-canary (verde)
+kubectl run test-canary --rm -i --restart=Never --image=curlimages/curl -- sh -c "for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do curl -s http://inventario-canary-service/version; echo ''; done"
 ```
 
 **Demostración 2: Manejo de Secretos (Sin texto plano):**
