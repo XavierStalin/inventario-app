@@ -146,3 +146,65 @@ minikube profile list
 ```bash
 minikube stop -p practica-inventario
 ```
+
+---
+
+### 5. Despliegue en Kubernetes y Verificación de Buenas Prácticas
+
+**Aplicar manifiestos de Kubernetes:**
+```bash
+# Aplicar secretos, servicio principal y deployment rolling update
+kubectl apply -f k8s/
+
+# Aplicar despliegue de estrategia Canary (v1 y v2)
+kubectl apply -f k8s/canary/
+```
+
+**Verificar despliegue:**
+```bash
+kubectl get deployments
+kubectl get pods
+kubectl get services
+```
+
+**Demostración 1: Reparto de Tráfico en Despliegue Canary:**
+```bash
+# Terminal 1: Port-forward del servicio canary
+kubectl port-forward svc/inventario-canary-service 8081:80
+
+# Terminal 2: Verificación de tráfico (80% v1.0-stable, 20% v2.0-canary)
+# En PowerShell / Warp:
+1..10 | ForEach-Object { (Invoke-RestMethod -Uri http://localhost:8081/version) | ConvertTo-Json -Compress }
+
+# En Git Bash / Linux:
+for i in {1..10}; do curl -s http://localhost:8081/version; echo ""; done
+```
+
+**Demostración 2: Manejo de Secretos (Sin texto plano):**
+```bash
+# Obtener un pod activo y consultar la variable de entorno API_KEY inyectada desde Secret
+kubectl exec $(kubectl get pods -l app=inventario-app -o jsonpath='{.items[0].metadata.name}') -- env | grep API_KEY
+```
+
+**Demostración 3: Readiness Probe y Arranque Lento:**
+```bash
+# Inspeccionar el pod para verificar el STARTUP_DELAY_SECONDS y la configuración del readinessProbe
+kubectl describe pod -l app=inventario-app
+```
+
+**Demostración 4: Pérdida de Datos en Almacenamiento Efímero:**
+```bash
+# Terminal 1: Redirigir el servicio principal
+kubectl port-forward svc/inventario-service 8080:80
+
+# Terminal 2: Crear producto y eliminar el pod para evidenciar la pérdida de datos
+curl -X POST http://localhost:8080/api/products -H "Content-Type: application/json" -d '{"name":"Mouse Gamers","sku":"MOU-001","stock":10,"price":25}'
+curl -s http://localhost:8080/api/products
+
+# Eliminar el pod
+kubectl delete pod $(kubectl get pods -l app=inventario-app -o jsonpath='{.items[0].metadata.name}')
+
+# Consultar de nuevo tras la recreación del pod por el ReplicaSet
+curl -s http://localhost:8080/api/products
+```
+
