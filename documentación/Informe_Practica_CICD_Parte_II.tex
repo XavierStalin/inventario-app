@@ -158,23 +158,21 @@ Las métricas DORA presentadas a continuación fueron calculadas utilizando dato
 \subsection{Paso 2: Tiempo de Entrega de Cambios (Lead Time for Changes)}
 Las métricas se calcularon de forma exacta mediante la resta de marcas de tiempo reales (\textit{timestamps}) verificables entre el registro del \textit{commit} local en Git (\texttt{git log}) y la verificación del estado del pod en el clúster de Kubernetes (\textit{GitHub Actions run} + \texttt{kubectl rollout status}):
 
-\begin{enumerate}[label=\textbf{Cambio \arabic*:}]
-    \item \textbf{Commit \texttt{971cd4a} (Despliegue de la Estrategia Canary):}
-    \begin{itemize}[leftmargin=*]
-        \item \textbf{Timestamp del Commit en Git (\texttt{git log}):} Sábado 25/Jul/2026 a las \textbf{13:36:56}.
-        \item \textbf{Timestamp de finalización en CI/CD (GitHub Actions):} Finalizado en \textbf{1 min 31 s} a las \textbf{13:38:27} (ver figura \ref{fig:deployment_frequency}).
-        \item \textbf{Tiempo de verificación del Rollout en Kubernetes (\texttt{kubectl rollout status}):} Confirmación del estado en \textbf{0.08 s} (79 ms).
-        \item \textbf{Cálculo exacto del Lead Time:} 13h 38m 27.08s $-$ 13h 36m 56s = \textbf{1 minuto y 31.08 segundos}.
-    \end{itemize}
+\paragraph*{Cambio 1: Commit \texttt{971cd4a} (Despliegue de la Estrategia Canary)}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Timestamp Git (\texttt{git log}):} Sábado 25/Jul/2026 a las \textbf{13:36:56}.
+    \item \textbf{Timestamp CI/CD (GitHub Actions):} Finalizado en \textbf{1 min 31 s} a las \textbf{13:38:27} (ver figura \ref{fig:deployment_frequency}).
+    \item \textbf{Rollout Kubernetes (\texttt{kubectl rollout status}):} Estado verificado en \textbf{0.08 s} (79 ms).
+    \item \textbf{Cálculo exacto del Lead Time:} 13h 38m 27.08s $-$ 13h 36m 56s = \textbf{1 minuto y 31.08 segundos}.
+\end{itemize}
 
-    \item \textbf{Commit \texttt{58e2d54} (Corrección Final de Código):}
-    \begin{itemize}[leftmargin=*]
-        \item \textbf{Timestamp del Commit en Git (\texttt{git log}):} Sábado 25/Jul/2026 a las \textbf{21:15:09} (ver figura \ref{fig:git_log_commit}).
-        \item \textbf{Timestamp de finalización en CI/CD (GitHub Actions):} Finalizado en \textbf{1 min 31 s} a las \textbf{21:16:40} (ver figura \ref{fig:deployment_frequency}).
-        \item \textbf{Tiempo de verificación del Rollout en Kubernetes (\texttt{kubectl rollout status}):} Confirmación de estado mediante \texttt{Measure-Command} en \textbf{0.08 s} (79 ms, ver figura \ref{fig:kubectl_rollout_measure}).
-        \item \textbf{Cálculo exacto del Lead Time:} 21h 16m 40.08s $-$ 21h 15m 09s = \textbf{1 minuto y 31.08 segundos}.
-    \end{itemize}
-\end{enumerate}
+\paragraph*{Cambio 2: Commit \texttt{58e2d54} (Corrección Final de Código)}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Timestamp Git (\texttt{git log}):} Sábado 25/Jul/2026 a las \textbf{21:15:09} (ver figura \ref{fig:git_log_commit}).
+    \item \textbf{Timestamp CI/CD (GitHub Actions):} Finalizado en \textbf{1 min 31 s} a las \textbf{21:16:40} (ver figura \ref{fig:deployment_frequency}).
+    \item \textbf{Rollout Kubernetes (\texttt{kubectl rollout status}):} Estado verificado en \textbf{0.08 s} (79 ms, ver figura \ref{fig:kubectl_rollout_measure}).
+    \item \textbf{Cálculo exacto del Lead Time:} 21h 16m 40.08s $-$ 21h 15m 09s = \textbf{1 minuto y 31.08 segundos}.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
@@ -202,7 +200,7 @@ Para corroborar de forma auditable la frecuencia de despliegue con datos reales,
     \label{fig:deployment_frequency}
 \end{figure}
 
-A partir de estas marcas de tiempo, se valida que el equipo realizó 6 integraciones y entregas exitosas a producción en un período de 24 horas, alcanzando una frecuencia real de **6 despliegues/día**.
+A partir de estas marcas de tiempo, se valida que el equipo realizó 6 integraciones y entregas exitosas a producción en un período de 24 horas, alcanzando una frecuencia real de \textbf{6 despliegues/día}.
 
 \subsection{Paso 4: Tasa de Errores de Cambios (Change Failure Rate - CFR)}
 De acuerdo con las marcas de tiempo y el estado del historial de ejecuciones expuesto en la figura \ref{fig:deployment_frequency}, se calcula el porcentaje de fallos de cambios (CFR) utilizando los datos exactos del pipeline:
