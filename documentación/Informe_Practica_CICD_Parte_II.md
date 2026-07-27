@@ -1,4 +1,4 @@
-# EXAMEN FINAL - PARTE II: INFORME DE PRUEBAS, MÉTRICAS DORA Y REFLEXIÓN TÉCNICA
+# EXAMEN FINAL - PARTE I: INFORME DE PRUEBAS, MÉTRICAS DORA Y REFLEXIÓN TÉCNICA
 
 **Asignatura:** Sistemas Distribuidos  
 **Proyecto:** `inventario-app`  
