@@ -224,8 +224,19 @@ curl -s http://localhost:8080/api/products
 
 # Eliminar el pod
 kubectl delete pod $(kubectl get pods -l app=inventario-app -o jsonpath='{.items[0].metadata.name}')
-
-# Consultar de nuevo tras la recreación del pod por el ReplicaSet
-curl -s http://localhost:8080/api/products
 ```
+
+> [!NOTE]
+> **Comportamiento esperado en la terminal del port-forward:**
+> Al eliminar el pod activo, la Terminal 1 que ejecuta `kubectl port-forward` se cerrará con un error del tipo `lost connection to pod` (esto es normal porque el túnel estaba atado al pod eliminado). 
+> 
+> Para comprobar la pérdida de datos, debes **volver a iniciar** el reenvío de puertos en la Terminal 1 para asociarla con los nuevos pods recreados por el ReplicaSet:
+> ```bash
+> kubectl port-forward svc/inventario-service 8080:80
+> ```
+> Luego, consulta el catálogo desde el navegador o usando curl:
+> ```bash
+> curl -s http://localhost:8080/api/products
+> # Deberá retornar un arreglo vacío [] demostrando la pérdida de la base de datos local efímera.
+> ```
 
