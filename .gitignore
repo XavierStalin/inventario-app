@@ -3,3 +3,19 @@ npm-debug.log
 .DS_Store
 data/products.json
 data/test-products.json
+
+# Kubernetes secrets
+k8s/secret.yaml
+
+# LaTeX sources and auxiliary files (except PDF)
+*.tex
+*.aux
+*.log
+*.toc
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.pdftex
+*.nav
+*.snm
