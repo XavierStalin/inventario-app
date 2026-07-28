@@ -19,3 +19,6 @@ k8s/secret.yaml
 *.pdftex
 *.nav
 *.snm
+
+# Scratch and local guides
+guion.md
