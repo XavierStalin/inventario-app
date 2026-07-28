@@ -156,9 +156,9 @@ minikube stop -p practica-inventario
 
 > [!IMPORTANT]
 > **Preparación de Secretos (Seguridad):**
-> Dado que `k8s/secret.yaml` está excluido de Git para evitar filtrar credenciales, antes de desplegar por primera vez debes crear el archivo a partir de la plantilla:
+> Dado que `k8s/secret.yaml` está excluido de Git para evitar filtrar credenciales, antes de desplegar por primera vez debes crear el archivo a partir de la plantilla de la raíz:
 > ```bash
-> cp k8s/secret.example.yaml k8s/secret.yaml
+> cp secret.example.yaml k8s/secret.yaml
 > ```
 
 **Fase 1: Despliegue Base y Buenas Prácticas (Recomendado)**
