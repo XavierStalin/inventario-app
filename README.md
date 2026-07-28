@@ -1,6 +1,6 @@
 # inventario-app
 
-Catálogo de inventario con interfaz web y base de datos local. Este repositorio es el **punto de partida** de la tarea de CI/CD — no incluye `Dockerfile`, workflow de GitHub Actions ni manifiestos de Kubernetes: esos tres se construyen como parte del trabajo asignado.
+Catálogo de inventario con interfaz web y base de datos local. Este repositorio es el **punto de partida** de la tarea de CI/CD.
 
 ## Qué es
 
@@ -154,23 +154,10 @@ minikube stop -p practica-inventario
 
 ### 5. Despliegue en Kubernetes y Verificación de Buenas Prácticas
 
-> [!IMPORTANT]
-> **Preparación de Secretos (Seguridad):**
-> Dado que `k8s/secret.yaml` está excluido de Git para evitar filtrar credenciales, antes de desplegar por primera vez debes crear el archivo a partir de la plantilla de la raíz:
-> ```bash
-> cp secret.example.yaml k8s/secret.yaml
-> ```
-
-**Fase 1: Despliegue Base y Buenas Prácticas (Recomendado)**
+**Aplicar manifiestos de Kubernetes:**
 ```bash
-# Aplicar secretos, servicio principal y deployment rolling update base
+# Aplicar secretos, servicio principal y deployment rolling update
 kubectl apply -f k8s/
-```
-
-**Fase 2: Despliegue Canary (Limpiar base primero para evitar saturar Minikube)**
-```bash
-# Eliminar despliegue base
-kubectl delete -f k8s/
 
 # Aplicar despliegue de estrategia Canary (v1 y v2)
 kubectl apply -f k8s/canary/
@@ -197,21 +184,10 @@ kubectl exec $(kubectl get pods -l app=inventario-app -o jsonpath='{.items[0].me
 ```
 
 **Demostración 3: Readiness Probe y Arranque Lento:**
-
-Dado que implementamos una validación de arranque lento real de 10 segundos en el servidor (`STARTUP_DELAY_SECONDS: 10`), puedes comprobar el funcionamiento de la Readiness Probe de dos formas:
-
-1. **Observar la transición en tiempo real:**
-   Ejecuta el siguiente comando inmediatamente después de aplicar los manifiestos base. Verás que los pods se reportan en `Running` pero con `0/1 READY` (no listos para tráfico). Transcurridos 12 segundos (los 10s de arranque lento + el inicio de la sonda), cambiarán automáticamente a `1/1 READY`:
-   ```bash
-   kubectl get pods -l app=inventario-app -w
-   ```
-
-2. **Verificar el log de eventos:**
-   Al inspeccionar el pod mientras inicia, verás reflejados los códigos de estado `503` devueltos por `/health` durante el arranque antes de completarse exitosamente:
-   ```bash
-   kubectl describe pod -l app=inventario-app
-   # Revisa los 'Events' al final: reportará advertencias "Readiness probe failed: HTTP probe failed with statuscode: 503"
-   ```
+```bash
+# Inspeccionar el pod para verificar el STARTUP_DELAY_SECONDS y la configuración del readinessProbe
+kubectl describe pod -l app=inventario-app
+```
 
 **Demostración 4: Pérdida de Datos en Almacenamiento Efímero:**
 ```bash
@@ -224,19 +200,8 @@ curl -s http://localhost:8080/api/products
 
 # Eliminar el pod
 kubectl delete pod $(kubectl get pods -l app=inventario-app -o jsonpath='{.items[0].metadata.name}')
-```
 
-> [!NOTE]
-> **Comportamiento esperado en la terminal del port-forward:**
-> Al eliminar el pod activo, la Terminal 1 que ejecuta `kubectl port-forward` se cerrará con un error del tipo `lost connection to pod` (esto es normal porque el túnel estaba atado al pod eliminado). 
-> 
-> Para comprobar la pérdida de datos, debes **volver a iniciar** el reenvío de puertos en la Terminal 1 para asociarla con los nuevos pods recreados por el ReplicaSet:
-> ```bash
-> kubectl port-forward svc/inventario-service 8080:80
-> ```
-> Luego, consulta el catálogo desde el navegador o usando curl:
-> ```bash
-> curl -s http://localhost:8080/api/products
-> # Deberá retornar un arreglo vacío [] demostrando la pérdida de la base de datos local efímera.
-> ```
+# Consultar de nuevo tras la recreación del pod por el ReplicaSet
+curl -s http://localhost:8080/api/products
+```
 
