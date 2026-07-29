@@ -69,8 +69,12 @@ docker run -d -p 3000:3000 --name inventario-container inventario-app:v1
 ```
 
 **Verificar las rutas principales (con curl):**
+
+> [!TIP]
+> Si estás en Windows (PowerShell), recuerda usar **`curl.exe`** en lugar de `curl` para evitar conflictos con el alias nativo `Invoke-WebRequest`.
+
 ```bash
-# Ruta de la interfaz web
+# Ruta de la interfaz web (En Windows usa curl.exe)
 curl http://localhost:3000/
 
 # Endpoint de salud (debe retornar 200 OK)
@@ -193,11 +197,21 @@ kubectl describe pod -l app=inventario-app
 ```
 
 **Demostración 4: Pérdida de Datos en Almacenamiento Efímero:**
+
+> [!TIP]
+> En Windows (PowerShell), `curl` es un alias de `Invoke-WebRequest`. Debes usar **`curl.exe`** para poder ejecutar las peticiones con los parámetros estándar de curl.
+
 ```bash
 # Terminal 1: Redirigir el servicio principal
 kubectl port-forward svc/inventario-service 8080:80
 
 # Terminal 2: Crear producto y eliminar el pod para evidenciar la pérdida de datos
+
+# En Windows (PowerShell/CMD):
+curl.exe -X POST http://localhost:8080/api/products -H "Content-Type: application/json" -d '{"name":"Mouse Gamers","sku":"MOU-001","stock":10,"price":25}'
+curl.exe -s http://localhost:8080/api/products
+
+# En Linux/macOS (Bash):
 curl -X POST http://localhost:8080/api/products -H "Content-Type: application/json" -d '{"name":"Mouse Gamers","sku":"MOU-001","stock":10,"price":25}'
 curl -s http://localhost:8080/api/products
 
@@ -205,6 +219,7 @@ curl -s http://localhost:8080/api/products
 kubectl delete pod <nombre-del-pod>
 
 # Consultar de nuevo tras la recreación del pod por el ReplicaSet
-curl -s http://localhost:8080/api/products
+# (En Windows usa curl.exe / En Linux-macOS usa curl)
+curl.exe -s http://localhost:8080/api/products
 ```
 
