@@ -174,13 +174,16 @@ kubectl get services
 ```bash
 # Probar el balanceo de carga real (Kube-Proxy) realizando 20 peticiones HTTP dentro del clúster:
 # Reparto aproximado: 80% v1.0-stable (azul) y 20% v2.0-canary (verde)
-kubectl run test-canary --rm -i --restart=Never --image=curlimages/curl -- sh -c "for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do curl -s http://inventario-canary-service/version; echo ''; done"
+kubectl run test-canary --rm -i --restart=Never --image=curlimages/curl -- sh -c 'for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do curl -s http://inventario-canary-service/version; echo; done'
 ```
 
 **Demostración 2: Manejo de Secretos (Sin texto plano):**
 ```bash
-# Obtener un pod activo y consultar la variable de entorno API_KEY inyectada desde Secret
-kubectl exec $(kubectl get pods -l app=inventario-app -o jsonpath='{.items[0].metadata.name}') -- env | grep API_KEY
+# En Windows (PowerShell/CMD):
+kubectl exec -it deployment/inventario-app -- env | findstr API_KEY
+
+# En Linux/macOS (Bash):
+kubectl exec -it deployment/inventario-app -- env | grep API_KEY
 ```
 
 **Demostración 3: Readiness Probe y Arranque Lento:**
@@ -198,8 +201,8 @@ kubectl port-forward svc/inventario-service 8080:80
 curl -X POST http://localhost:8080/api/products -H "Content-Type: application/json" -d '{"name":"Mouse Gamers","sku":"MOU-001","stock":10,"price":25}'
 curl -s http://localhost:8080/api/products
 
-# Eliminar el pod
-kubectl delete pod $(kubectl get pods -l app=inventario-app -o jsonpath='{.items[0].metadata.name}')
+# Eliminar el pod (reemplaza <nombre-del-pod> por el real obtenido con "kubectl get pods")
+kubectl delete pod <nombre-del-pod>
 
 # Consultar de nuevo tras la recreación del pod por el ReplicaSet
 curl -s http://localhost:8080/api/products

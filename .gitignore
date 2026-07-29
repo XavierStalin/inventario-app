@@ -20,5 +20,3 @@ k8s/secret.yaml
 *.nav
 *.snm
 
-# Scratch and local guides
-guion.md
