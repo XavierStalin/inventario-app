@@ -198,28 +198,17 @@ kubectl describe pod -l app=inventario-app
 
 **Demostración 4: Pérdida de Datos en Almacenamiento Efímero:**
 
-> [!TIP]
-> En Windows (PowerShell), `curl` es un alias de `Invoke-WebRequest`. Debes usar **`curl.exe`** para poder ejecutar las peticiones con los parámetros estándar de curl.
-
 ```bash
 # Terminal 1: Redirigir el servicio principal
 kubectl port-forward svc/inventario-service 8080:80
 
-# Terminal 2: Crear producto y eliminar el pod para evidenciar la pérdida de datos
+# Terminal 2: Crear producto y consultar lista (usando Invoke-RestMethod de PowerShell)
+Invoke-RestMethod -Uri "http://localhost:8080/api/products" -Method Post -ContentType "application/json" -Body '{"name":"Mouse Gamers","sku":"MOU-001","stock":10,"price":25}'
+Invoke-RestMethod http://localhost:8080/api/products
 
-# En Windows (PowerShell/CMD):
-curl.exe -X POST http://localhost:8080/api/products -H "Content-Type: application/json" -d '{"name":"Mouse Gamers","sku":"MOU-001","stock":10,"price":25}'
-curl.exe -s http://localhost:8080/api/products
+# Eliminar el pod activo para evidenciar la pérdida de datos al recrearse
+kubectl delete pod $(kubectl get pods -l app=inventario-app -o jsonpath='{.items[0].metadata.name}')
 
-# En Linux/macOS (Bash):
-curl -X POST http://localhost:8080/api/products -H "Content-Type: application/json" -d '{"name":"Mouse Gamers","sku":"MOU-001","stock":10,"price":25}'
-curl -s http://localhost:8080/api/products
-
-# Eliminar el pod (reemplaza <nombre-del-pod> por el real obtenido con "kubectl get pods")
-kubectl delete pod <nombre-del-pod>
-
-# Consultar de nuevo tras la recreación del pod por el ReplicaSet
-# (En Windows usa curl.exe / En Linux-macOS usa curl)
-curl.exe -s http://localhost:8080/api/products
+# Consultar de nuevo tras la recreación del pod por el ReplicaSet (comprobar que la base de datos se reinició)
+Invoke-RestMethod http://localhost:8080/api/products
 ```
-
